@@ -9,7 +9,7 @@
 
 <h3><code>radit@github ~ $ ./contributions.sh</code></h3>
 
-<img src="./contrib-heatmap.svg" width="860" alt="GitHub contribution graph — auto-refreshed daily" />
+<img src="./contrib-heatmap.svg?v=2" width="860" alt="GitHub contribution graph — auto-refreshed daily" />
 
 <br>
 <br>
@@ -18,8 +18,8 @@
 
 <table>
 <tr>
-<td valign="top"><img src="./avi-ascii.svg" width="370" alt="ASCII portrait" /></td>
-<td valign="top"><img src="./info-card.svg" width="490" alt="Experience, stack, highlights" /></td>
+<td valign="top"><img src="./avi-ascii.svg?v=2" width="370" alt="ASCII portrait" /></td>
+<td valign="top"><img src="./info-card.svg?v=2" width="490" alt="Experience, stack, highlights" /></td>
 </tr>
 </table>
 
@@ -31,7 +31,8 @@
 <p><b>AI & Web3 Builder · Tech Enthusiast</b></p>
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/YOUR_LINKEDIN_USERNAME)
-[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/YOUR_GITHUB_USERNAME)
+[![Instagram](https://img.shields.io/badge/Instagram-raditrmdnn-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/raditrmdnn/)
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/RaditRamadani)
 
 <br>
 
