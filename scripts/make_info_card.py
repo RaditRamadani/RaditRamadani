@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 """
-Build a neofetch-style info card SVG (Andrew6rant style) to sit to the RIGHT of
+Build a neofetch-style info card SVG to sit to the RIGHT of
 the ASCII portrait: colored key/value rows for work experience, tech stack, and
 highlights -- NOT GitHub stats (the contribution graph covers those).
 
@@ -9,10 +10,15 @@ frozen state for Quick Look previews.
 """
 import html
 import os
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "info-card.svg")
 STATIC = bool(os.environ.get("STATIC"))
+
+USERNAME = os.environ.get("GH_PROFILE_USER")
+if not USERNAME:
+    USERNAME = sys.argv[1] if len(sys.argv) > 1 else "RaditRamadani"
 
 W, H = 480, 376
 PAD = 20
@@ -26,33 +32,32 @@ BG2 = "#111722"
 FRAME = "#30363d"
 MUTED = "#7d8590"
 INK = "#c9d1d9"
-KEY = "#ffa657"      # orange keys (matches Andrew)
+KEY = "#ffa657"      # orange keys
 SECTION = "#58a6ff"  # blue section headers
 GREEN = "#3fb950"
 ACCENT = "#22d3ee"
 
 # content model: tuples describing each row
-# ("host",)                    -> "avi@github" + rule
+# ("host",)                    -> "user@github" + rule
 # ("kv", key, value)           -> orange key + light value
 # ("sec", title)               -> blue "— title —" rule
 # ("bul", text)                -> green dot + light text
 # ("gap",)                     -> vertical space
 ROWS = [
     ("host",),
-    ("kv", "Now", "Software Engineer @ Dock.us"),
-    ("kv", "Prev", "Founding Engineer @ Turgon AI"),
-    ("kv", "Also", "SDE + Instructor @ AccioJob (YC'21)"),
-    ("kv", "Edu", "B.Tech CS, IIIT Delhi '24"),
+    ("kv", "Now", "Fullstack Developer"),
+    ("kv", "Prev", "Software Engineering Student"),
+    ("kv", "Focus", "Web Apps, APIs & Automation"),
+    ("kv", "Edu", "Computer Science"),
     ("gap",),
     ("sec", "Stack"),
-    ("kv", "Frontend", "React, Next.js, TypeScript, R3F"),
-    ("kv", "Backend", "Node, NestJS, GraphQL, Django"),
-    ("kv", "AI / ML", "LangChain, Vercel AI SDK, OpenAI"),
-    ("kv", "Cloud", "AWS, Docker, Vercel, Prisma"),
+    ("kv", "Frontend", "React, Next.js, HTML, CSS, JS"),
+    ("kv", "Backend", "Node.js, Express, Python, SQL"),
+    ("kv", "Tools", "Git, Docker, VS Code, PowerShell"),
     ("gap",),
     ("sec", "Highlights"),
-    ("bul", "Taught 100,000+ developers to code"),
-    ("bul", "2 books · 100k+ podcast streams"),
+    ("bul", "Building beautiful & interactive UIs"),
+    ("bul", "Automating developer workflows"),
 ]
 
 
@@ -84,7 +89,7 @@ parts = [
 for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
     parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
 parts.append(f'<text x="{W/2}" y="{TITLEBAR_H/2 + 4}" fill="{MUTED}" font-size="12" '
-             f'text-anchor="middle">avi@github: ~$ neofetch</text>')
+             f'text-anchor="middle">{esc(USERNAME)}@github: ~$ neofetch</text>')
 
 y = TITLEBAR_H + 30
 for i, row in enumerate(ROWS):
@@ -94,9 +99,9 @@ for i, row in enumerate(ROWS):
         continue
     if kind == "host":
         inner = (f'<text x="{KEY_X}" y="{y:.1f}" font-size="14" font-weight="700">'
-                 f'<tspan fill="{GREEN}">avi</tspan><tspan fill="{MUTED}">@</tspan>'
+                 f'<tspan fill="{GREEN}">{esc(USERNAME)}</tspan><tspan fill="{MUTED}">@</tspan>'
                  f'<tspan fill="{ACCENT}">github</tspan></text>'
-                 f'<line x1="{KEY_X+96}" y1="{y-4:.1f}" x2="{W-PAD}" y2="{y-4:.1f}" '
+                 f'<line x1="{KEY_X + 12 + len(USERNAME)*8.5}" y1="{y-4:.1f}" x2="{W-PAD}" y2="{y-4:.1f}" '
                  f'stroke="{FRAME}" stroke-opacity="0.8"/>')
     elif kind == "sec":
         title = esc(row[1])

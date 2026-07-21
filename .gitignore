@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.system_generated/
+task.md
+walkthrough.md
+implementation_plan.md
+task.md.metadata.json
+walkthrough.md.metadata.json
+implementation_plan.md.metadata.json

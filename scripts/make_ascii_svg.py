@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Convert a portrait photo into a CLEAN, monochrome ASCII-art SVG (Andrew6rant
 style: one light-gray color, subject isolated on a dark background) that "types"
@@ -22,6 +23,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # the background removed + local contrast applied.
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "source-prepped.png")
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "..", "avi-ascii.svg")
+
+USERNAME = os.environ.get("GH_PROFILE_USER")
+if not USERNAME:
+    USERNAME = sys.argv[3] if len(sys.argv) > 3 else "RaditRamadani"
+
+DISPLAY_NAME = os.environ.get("GH_PROFILE_NAME")
+if not DISPLAY_NAME:
+    DISPLAY_NAME = sys.argv[4] if len(sys.argv) > 4 else "Radit Ramadani"
 
 COLS = 100
 ROWS = 53
@@ -55,6 +64,9 @@ CURSOR = "#c9d1d9"
 # ---- reveal timing (one-shot; a cursor rasters top -> bottom) -------------
 ROW_DUR = 0.11
 STAGGER = 0.11       # == ROW_DUR -> a single cursor sweeping down
+
+def esc(s):
+    return html.escape(s)
 
 # ---- 1. sample the image into a COLS x ROWS grayscale grid ----------------
 im = Image.open(SRC).convert("L")               # grayscale
@@ -103,7 +115,7 @@ parts.append(f'<line x1="0" y1="{TITLEBAR_H}" x2="{CANVAS_W}" y2="{TITLEBAR_H}" 
 for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
     parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
 parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}" font-size="12" '
-             f'text-anchor="middle">avi@github: ~$ ./portrait.sh</text>')
+             f'text-anchor="middle">{esc(USERNAME)}@github: ~$ ./portrait.sh</text>')
 
 # one <text> per row (single color -> no per-char markup, tiny file)
 font_size = CELL_H * 0.86
@@ -111,7 +123,7 @@ for ry, line in enumerate(rows_txt):
     y = art_top + ry * CELL_H + CELL_H * 0.74
     row_y = art_top + ry * CELL_H
     delay = ry * STAGGER
-    safe = html.escape(line)
+    safe = esc(line)
     text = (f'<text xml:space="preserve" x="{PAD}" y="{y:.1f}" fill="{INK}" '
             f'font-size="{font_size:.1f}" textLength="{ART_W}" lengthAdjust="spacing">{safe}</text>')
 
@@ -137,9 +149,11 @@ for ry, line in enumerate(rows_txt):
 status_line_y = TITLEBAR_H + ART_H + PAD * 0.35
 status_y = status_line_y + 19
 parts.append(f'<line x1="0" y1="{status_line_y:.1f}" x2="{CANVAS_W}" y2="{status_line_y:.1f}" stroke="{FRAME}"/>')
+whoami_prompt = f"{esc(USERNAME)}@github:~$ whoami "
+whoami_len_approx = len(whoami_prompt) * 8.0 # approximate width in pixels
 parts.append(f'<text x="{PAD}" y="{status_y:.1f}" fill="{TITLE_TEXT}" font-size="13">'
-             f'avi@github:~$ whoami <tspan fill="{INK}">Avi Vashishta</tspan></text>')
-parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" fill="{INK}">'
+             f'{whoami_prompt}<tspan fill="{INK}">{esc(DISPLAY_NAME)}</tspan></text>')
+parts.append(f'<rect x="{PAD+whoami_len_approx}" y="{status_y-12:.1f}" width="8" height="14" fill="{INK}">'
              f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" '
              f'dur="1s" repeatCount="indefinite"/></rect>')
 
