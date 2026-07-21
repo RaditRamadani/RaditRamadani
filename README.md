@@ -28,7 +28,7 @@
 
 <h3><code>radit@github ~ $ ./links.sh</code></h3>
 
-<p><b>Fullstack Developer · Tech Enthusiast</b></p>
+<p><b>AI & Web3 Builder · Tech Enthusiast</b></p>
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/YOUR_LINKEDIN_USERNAME)
 [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/YOUR_GITHUB_USERNAME)
